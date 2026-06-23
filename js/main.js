@@ -118,3 +118,16 @@
   window.addEventListener('resize', function(){ size(); onScroll(); });
   size(); update();
 })();
+
+// ===== GA4 custom conversion events =====
+(function(){
+  document.addEventListener('click', function(e){
+    if(!e.target.closest || !window.gtag) return;
+    var book = e.target.closest('a[href*="calendly.com"]');
+    if(book){ gtag('event','book_call',{link_url:book.href, page_path:location.pathname}); return; }
+    var mail = e.target.closest('a[href^="mailto:"]');
+    if(mail){ gtag('event','email_click',{link_url:mail.getAttribute('href'), page_path:location.pathname}); return; }
+    var tel = e.target.closest('a[href^="tel:"]');
+    if(tel){ gtag('event','phone_click',{link_url:tel.getAttribute('href'), page_path:location.pathname}); }
+  });
+})();
